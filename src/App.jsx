@@ -13,6 +13,12 @@ export default function App() {
     const prevPricesRef = useRef(new Map());
     const timeoutsRef = useRef(new Map());
 
+    const [sortBy, setSortBy] = useState("rank");
+    const [sortAsc, setSortAsc] = useState(true);
+    const [search, setSearch] = useState("");
+    const [query, setQuery] = useState(""); // potvrdený filter
+
+    const [angle, setAngle] = useState(0);
     // Načítanie coinov z CoinGecko
     useEffect(() => {
         let isMounted = true; // guard proti nastaveni stavu po unmount
@@ -160,19 +166,95 @@ export default function App() {
         // eslint-disable-next-line
     }, [coinsMap]); // spustí sa len keď sa načítajú nové dáta do coinsMap
 
-    // Stránkovanie
-    const pageCount = Math.ceil(otherCoins.length / PAGE_SIZE);
-    const pagedCoins = otherCoins.slice(
-        page * PAGE_SIZE,
-        page * PAGE_SIZE + PAGE_SIZE
-    );
-
     // Helper pre pekné formátovanie meny a percent
     const fmtPrice = (v) => (Number.isFinite(v) ? v.toFixed(4) : "-");
     const fmtPercent = (v) => (Number.isFinite(v) ? `${v.toFixed(5)} %` : "-");
 
+    // zoradenie podľa výberu
+    const sortedCoins = [...otherCoins].sort((a, b) => {
+        let va, vb;
+        switch (sortBy) {
+            case "rank":
+                va = a.rank ?? Number.MAX_SAFE_INTEGER;
+                vb = b.rank ?? Number.MAX_SAFE_INTEGER;
+                break;
+            case "symbol":
+                va = a.s;
+                vb = b.s;
+                break;
+            case "name":
+                va = a.name;
+                vb = b.name;
+                break;
+            case "price":
+                va = a.c;
+                vb = b.c;
+                break;
+            case "change":
+                va = a.change24h;
+                vb = b.change24h;
+                break;
+            default:
+                va = a.rank;
+                vb = b.rank;
+        }
+        if (typeof va === "string") {
+            return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+        } else {
+            return sortAsc ? va - vb : vb - va;
+        }
+    });
+
+    // filter podľa názvu
+    const filteredCoins = sortedCoins.filter(
+        (c) =>
+            query === "" || c.name.toLowerCase().includes(query.toLowerCase())
+    );
+
+    // stránkovanie po filtrovaní
+    const pageCount = Math.ceil(filteredCoins.length / PAGE_SIZE);
+    const pagedCoins = filteredCoins.slice(
+        page * PAGE_SIZE,
+        page * PAGE_SIZE + PAGE_SIZE
+    );
+
+    const toggleSort = () => {
+        setAngle((prev) => prev + 180); // pri každom kliknutí pridáme 180°
+    };
+
     return (
         <div className="container">
+            <img
+                src="bitcoin-btc-logo.png"
+                id="img1"
+                className="bg-img"
+                alt="BTC"
+            />
+            <img
+                src="bnb-bnb-logo.png"
+                id="img2"
+                className="bg-img"
+                alt="BNB"
+            />
+            <img
+                src="dogecoin-doge-logo.png"
+                id="img3"
+                className="bg-img"
+                alt="DOGE"
+            />
+            <img
+                src="ethereum-eth-logo.png"
+                id="img4"
+                className="bg-img"
+                alt="ETH"
+            />
+            <img
+                src="solana-sol-logo.png"
+                id="img5"
+                className="bg-img"
+                alt="SOL"
+            />
+
             <h1>📈 Crypto Tracker</h1>
 
             <h2>🔥 Aktívne sledované krypto</h2>
@@ -208,10 +290,61 @@ export default function App() {
             </table>
 
             <h2>Ostatné krypto</h2>
-            <p>
-                Zobrazeno: {otherCoins.length} coinů. Stránka {page + 1} /{" "}
-                {pageCount}
-            </p>
+
+            <div className="toolbar">
+                <div className="info">
+                    <span>Celkem: {filteredCoins.length} coinů</span>
+                    <span>
+                        Stránka {page + 1} / {pageCount}
+                    </span>
+                </div>
+
+                <div className="controls">
+                    {/* Filter */}
+                    <input
+                        type="text"
+                        placeholder="Hledat podle názvu..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                    <button
+                        onClick={() => {
+                            setQuery(search);
+                            setPage(0);
+                        }}
+                    >
+                        Hledat
+                    </button>
+
+                    {/* Řazení */}
+                    <select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                    >
+                        <option value="rank">Rank</option>
+                        <option value="symbol">Zkratka</option>
+                        <option value="name">Název</option>
+                        <option value="price">Cena</option>
+                        <option value="change">Změna 24h</option>
+                    </select>
+
+                    <div
+                        className="sort-toggle"
+                        onClick={() => {
+                            setSortAsc(!sortAsc);
+                            toggleSort();
+                        }}
+                    >
+                        <span
+                            className="arrow"
+                            style={{ transform: `rotate(${angle}deg)` }}
+                        >
+                            ▲
+                        </span>
+                    </div>
+                </div>
+            </div>
+
             <div className="pagination">
                 {Array.from({ length: pageCount }).map((_, i) => (
                     <button

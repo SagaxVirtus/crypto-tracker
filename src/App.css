@@ -2,8 +2,50 @@
 body {
     margin: 0;
     font-family: "Segoe UI", Roboto, sans-serif;
-    background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+    background: linear-gradient(135deg, #000000, #ff9900);
     color: #f5f5f5;
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Obrázky na pozadí */
+.bg-img {
+    position: absolute; /* umiestnenie podľa stránky */
+    opacity: 0.3;
+    pointer-events: none; /* neblokuje klikanie */
+    z-index: -1; /* za obsahom */
+}
+
+#img1 {
+    top: 100px;
+    left: 100px;
+    width: 300px;
+    height: 300px;
+}
+#img2 {
+    top: 400px;
+    left: 900px;
+    width: 200px;
+    height: 200px;
+}
+#img3 {
+    top: 700px;
+    left: 300px;
+    width: 180px;
+    height: 180px;
+}
+#img4 {
+    top: 900px;
+    left: 700px;
+    width: 350px;
+    height: 350px;
+}
+#img5 {
+    top: 1300px;
+    left: 250px;
+    width: 200px;
+    height: 200px;
 }
 
 /* Kontajner */
@@ -31,15 +73,82 @@ h2 {
     font-size: 1.4rem;
 }
 
+/* Toolbar nad tabulkou */
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+    gap: 10px;
+}
+
+.toolbar .info {
+    color: #ffcc00;
+    font-size: 0.95rem;
+    display: flex;
+    gap: 15px;
+}
+
+.toolbar .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.toolbar input[type="text"] {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #444;
+    background: #111;
+    color: #f5f5f5;
+}
+
+.toolbar button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    background: #ffa500;
+    color: #111;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.toolbar button:hover {
+    background: #ffcc00;
+}
+
+.toolbar select {
+    padding: 6px;
+    border-radius: 6px;
+    background: #111;
+    color: #ffcc00;
+    border: 1px solid #444;
+}
+
+.sort-toggle {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    font-size: 1.5rem;
+    user-select: none;
+}
+
+.arrow {
+    display: inline-block;
+    color: #ffcc00;
+    transition: transform 0.3s ease-in-out;
+}
+
 /* Tabuľky */
 .table {
     width: 100%;
     border-collapse: collapse;
     margin: 15px 0;
-    background: rgba(255, 255, 255, 0.05); /* glass efekt */
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
 }
 
 .table th,
@@ -56,11 +165,11 @@ h2 {
 }
 
 .table tbody tr:nth-child(even) {
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(139, 15, 15, 0.15);
 }
 
 .table tbody tr:hover {
-    background: rgba(255, 204, 0, 0.15);
+    background: rgba(255, 204, 0, 0.3);
     transition: background 0.3s ease;
 }
 
@@ -108,6 +217,7 @@ h2 {
 }
 
 /* 📱 Responzivita */
+/*TODO PPRAVIŤ PRE MENšIE ZOBRAZENIE*/
 @media (max-width: 768px) {
     .table th,
     .table td {
