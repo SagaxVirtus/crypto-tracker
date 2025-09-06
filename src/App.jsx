@@ -225,31 +225,31 @@ export default function App() {
     return (
         <div className="container">
             <img
-                src="bitcoin-btc-logo.png"
+                src="/bitcoin-btc-logo.png"
                 id="img1"
                 className="bg-img"
                 alt="BTC"
             />
             <img
-                src="bnb-bnb-logo.png"
+                src="/bnb-bnb-logo.png"
                 id="img2"
                 className="bg-img"
                 alt="BNB"
             />
             <img
-                src="dogecoin-doge-logo.png"
+                src="/dogecoin-doge-logo.png"
                 id="img3"
                 className="bg-img"
                 alt="DOGE"
             />
             <img
-                src="ethereum-eth-logo.png"
+                src="/ethereum-eth-logo.png"
                 id="img4"
                 className="bg-img"
                 alt="ETH"
             />
             <img
-                src="solana-sol-logo.png"
+                src="/solana-sol-logo.png"
                 id="img5"
                 className="bg-img"
                 alt="SOL"

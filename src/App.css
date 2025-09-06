@@ -1,22 +1,41 @@
 /* Globálne nastavenia */
+html,
 body {
     margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* zakáže horizontálny scroll */
+}
+
+body {
     font-family: "Segoe UI", Roboto, sans-serif;
     background: linear-gradient(135deg, #000000, #ff9900);
     color: #f5f5f5;
     position: relative;
     min-height: 100vh;
-    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: -1;
 }
 
 /* Obrázky na pozadí */
 .bg-img {
-    position: absolute; /* umiestnenie podľa stránky */
+    position: absolute;
     opacity: 0.3;
-    pointer-events: none; /* neblokuje klikanie */
-    z-index: -1; /* za obsahom */
+    pointer-events: none;
+    z-index: 0;
+    transition: all 0.5s ease;
 }
 
+#img1,
+#img2,
+#img3,
+#img4,
+#img5 {
+    position: absolute;
+}
+
+/* Desktop pozície */
 #img1 {
     top: 100px;
     left: 100px;
@@ -25,34 +44,66 @@ body {
 }
 #img2 {
     top: 400px;
-    left: 900px;
+    left: 70vw;
     width: 200px;
     height: 200px;
 }
 #img3 {
     top: 700px;
-    left: 300px;
+    left: 20vw;
     width: 180px;
     height: 180px;
 }
 #img4 {
     top: 900px;
-    left: 700px;
+    left: 55vw;
     width: 350px;
     height: 350px;
 }
 #img5 {
     top: 1300px;
-    left: 250px;
+    left: 10vw;
     width: 200px;
     height: 200px;
 }
 
-/* Kontajner */
-.container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 20px;
+/* Responzivita obrázkov pre tablety */
+@media (max-width: 900px) {
+    #img1 {
+        top: 60px;
+        left: 30px;
+        width: 180px;
+        height: 180px;
+    }
+    #img2 {
+        top: 300px;
+        left: 85vw;
+        width: 120px;
+        height: 120px;
+    }
+    #img3 {
+        top: 500px;
+        left: 20vw;
+        width: 100px;
+        height: 100px;
+    }
+    #img4 {
+        top: 700px;
+        left: 75vw;
+        width: 180px;
+        height: 180px;
+    }
+    #img5 {
+        top: 900px;
+        left: 10vw;
+        width: 120px;
+        height: 120px;
+    }
+
+    .container {
+        max-width: 98vw;
+        padding: 8px;
+    }
 }
 
 /* Nadpisy */
@@ -143,18 +194,21 @@ h2 {
 /* Tabuľky */
 .table {
     width: 100%;
+    max-width: 100%;
+    margin: 15px auto;
     border-collapse: collapse;
-    margin: 15px 0;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    table-layout: fixed; /* pridaj toto */
 }
 
 .table th,
 .table td {
     padding: 12px;
     text-align: center;
+    word-break: break-word; /* pridaj toto */
 }
 
 .table thead {
@@ -217,28 +271,60 @@ h2 {
 }
 
 /* 📱 Responzivita */
-/*TODO PPRAVIŤ PRE MENšIE ZOBRAZENIE*/
 @media (max-width: 768px) {
     .table th,
     .table td {
         padding: 8px;
         font-size: 0.85rem;
     }
-
     h1 {
         font-size: 1.6rem;
     }
-
     h2 {
         font-size: 1.2rem;
     }
-
     .container {
         padding: 10px;
     }
 }
 
 @media (max-width: 480px) {
+    .container {
+        max-width: 100vw;
+        padding: 4px;
+    }
+
+    #img1,
+    #img2,
+    #img3,
+    #img4,
+    #img5 {
+        position: absolute;
+        width: 80vw;
+        height: auto;
+        opacity: 0.3;
+        top: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 0;
+    }
+
+    #img1 {
+        top: 5vh;
+    }
+    #img2 {
+        top: 60vh;
+    }
+    #img3 {
+        top: 110vh;
+    }
+    #img4 {
+        top: 175vh;
+    }
+    #img5 {
+        top: 240vh;
+    }
+
     .table thead {
         display: none;
     }
@@ -259,8 +345,8 @@ h2 {
     }
 
     .table td {
-        text-align: right;
-        padding: 6px 10px;
+        text-align: left;
+        padding: 6px 10px 6px 90px;
         font-size: 0.85rem;
         position: relative;
     }
@@ -273,4 +359,23 @@ h2 {
         color: #ffa500;
         text-align: left;
     }
+}
+
+@media (max-width: 270px) {
+    .container,
+    .table {
+        min-width: 270px;
+        width: 270px;
+        overflow-x: auto;
+    }
+}
+
+/* Kontajner */
+.container {
+    width: 90vw;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
